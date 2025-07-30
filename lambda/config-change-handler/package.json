@@ -1,0 +1,23 @@
+{
+  "name": "apiblaze-config-change-handler",
+  "version": "1.0.0",
+  "description": "APIBLAZE Configuration Change Handler Lambda Function",
+  "main": "index.js",
+  "scripts": {
+    "build": "zip -r ../config-change-handler.zip .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1531.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "apiblaze",
+    "lambda",
+    "dynamodb",
+    "streams",
+    "aws"
+  ],
+  "author": "APIBLAZE Team",
+  "license": "MIT"
+} 

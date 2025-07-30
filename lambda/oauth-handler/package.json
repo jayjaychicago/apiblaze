@@ -1,0 +1,22 @@
+{
+  "name": "apiblaze-oauth-handler",
+  "version": "1.0.0",
+  "description": "APIBLAZE OAuth Handler Lambda Function",
+  "main": "index.js",
+  "scripts": {
+    "build": "zip -r ../oauth-handler.zip .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1531.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "apiblaze",
+    "lambda",
+    "oauth",
+    "aws"
+  ],
+  "author": "APIBLAZE Team",
+  "license": "MIT"
+} 

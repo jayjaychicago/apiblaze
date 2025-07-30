@@ -1,0 +1,18 @@
+# AWS Configuration
+aws_region = "us-east-1"
+
+# Cloudflare Configuration
+cloudflare_api_token = "your-cloudflare-api-token"
+cloudflare_account_id = "your-cloudflare-account-id"
+cloudflare_zone_id = "your-cloudflare-zone-id"
+
+# GitHub Webhook Configuration
+github_webhook_secret = "your-github-webhook-secret"
+
+# Environment Configuration
+environment = "production"
+domain_name = "apiblaze.com"
+
+# Optional: Override default resource names
+# terraform_state_bucket = "apiblaze-terraform-state"
+# deployment_artifacts_bucket = "apiblaze-deployment-artifacts" 

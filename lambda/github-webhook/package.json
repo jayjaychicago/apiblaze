@@ -1,0 +1,24 @@
+{
+  "name": "apiblaze-github-webhook",
+  "version": "1.0.0",
+  "description": "APIBLAZE GitHub Webhook Handler Lambda Function",
+  "main": "index.js",
+  "scripts": {
+    "build": "zip -r ../github-webhook.zip .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1531.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "apiblaze",
+    "lambda",
+    "github",
+    "webhook",
+    "aws"
+  ],
+  "author": "APIBLAZE Team",
+  "license": "MIT"
+} 

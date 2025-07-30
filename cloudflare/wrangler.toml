@@ -1,0 +1,50 @@
+name = "apiblaze-worker"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "apiblaze-worker"
+routes = [
+  "apiblaze.com/*",
+  "*.apiblaze.com/*"
+]
+
+# KV Namespaces for fast access cache
+[[env.production.kv_namespaces]]
+binding = "OAUTH_TOKENS"
+id = "f5dbb6c577dd46e7a4678c56e2aeba9e"
+
+[[env.production.kv_namespaces]]
+binding = "API_KEYS"
+id = "4259d6dbd2ad4924ba07068c417f9440"
+
+[[env.production.kv_namespaces]]
+binding = "PROJECTS"
+id = "363e328e60e749e19e24a1e8ed2bb452"
+
+[[env.production.kv_namespaces]]
+binding = "USER_ACCESS"
+id = "bab3a89cf6344c6284ccd89e6f6ef686"
+
+# Environment variables
+[env.production.vars]
+ENVIRONMENT = "production"
+AWS_REGION = "us-east-1"
+COGNITO_USER_POOL_ID = "us-east-1_Gox43sRM6"
+COGNITO_USER_POOL_CLIENT_ID = "7kgng4e8or9t1060fo4vvna1ki"
+DYNAMODB_PROJECTS_TABLE = "apiblaze-projects"
+DYNAMODB_USERS_TABLE = "apiblaze-users"
+DYNAMODB_USER_PROJECT_ACCESS_TABLE = "apiblaze-user-project-access"
+DYNAMODB_CUSTOMERS_TABLE = "apiblaze-customers"
+DYNAMODB_API_KEYS_TABLE = "apiblaze-api-keys"
+API_GATEWAY_URL = "https://334n5q3ww8.execute-api.us-east-1.amazonaws.com/prod/admin"
+INTERNAL_API_KEY = "HUTjVbJS02F+uUWq/7hsbvmItUXtdwCI7W7hxGN+hk0="
+
+[env.staging]
+name = "apiblaze-worker-staging"
+route = "staging.apiblaze.com/*"
+
+# Secrets (set via wrangler secret put)
+# AWS_ACCESS_KEY_ID
+# AWS_SECRET_ACCESS_KEY
+# JWT_SECRET 

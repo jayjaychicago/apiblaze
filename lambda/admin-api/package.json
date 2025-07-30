@@ -1,0 +1,23 @@
+{
+  "name": "apiblaze-admin-api",
+  "version": "1.0.0",
+  "description": "APIBLAZE Admin API Lambda Function",
+  "main": "index.js",
+  "scripts": {
+    "build": "zip -r ../admin-api.zip .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1531.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "apiblaze",
+    "lambda",
+    "api",
+    "aws"
+  ],
+  "author": "APIBLAZE Team",
+  "license": "MIT"
+} 

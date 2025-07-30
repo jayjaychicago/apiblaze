@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:Query",
+                "dynamodb:Scan"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-users",
+                "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-user-project-access",
+                "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-customers",
+                "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-api-keys",
+                "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-projects",
+                "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-projects/index/GSI1"
+            ]
+        }
+    ]
+} 

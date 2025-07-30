@@ -1,0 +1,16 @@
+{
+  "name": "apiblaze-oauth-callback",
+  "version": "1.0.0",
+  "description": "OAuth callback handler for ApiBlaze",
+  "main": "index.js",
+  "scripts": {
+    "build": "zip -r ../oauth-callback.zip . -x '*.git*' 'node_modules/.cache/*' '*.DS_Store*'"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1000.0"
+  },
+  "devDependencies": {},
+  "keywords": ["oauth", "lambda", "apiblaze"],
+  "author": "ApiBlaze Team",
+  "license": "MIT"
+} 

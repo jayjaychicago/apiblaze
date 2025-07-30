@@ -1,0 +1,1143 @@
+{
+  "version": 4,
+  "terraform_version": "1.12.2",
+  "serial": 50,
+  "lineage": "6bd098c1-462c-68a4-f8bb-a709786202e8",
+  "outputs": {
+    "cognito_user_pool_id": {
+      "value": "us-east-1_BnXGhNVCA",
+      "type": "string"
+    },
+    "dynamodb_tables": {
+      "value": {
+        "api_keys": "apiblaze-api-keys",
+        "customers": "apiblaze-customers",
+        "projects": "apiblaze-projects",
+        "user_project_access": "apiblaze-user-project-access",
+        "users": "apiblaze-users"
+      },
+      "type": [
+        "object",
+        {
+          "api_keys": "string",
+          "customers": "string",
+          "projects": "string",
+          "user_project_access": "string",
+          "users": "string"
+        }
+      ]
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "aws_api_gateway_method",
+      "name": "admin",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "api_key_required": false,
+            "authorization": "NONE",
+            "authorization_scopes": [],
+            "authorizer_id": "",
+            "http_method": "ANY",
+            "id": "agm-oyue74ev69-q54qvo-ANY",
+            "operation_name": "",
+            "request_models": {},
+            "request_parameters": {},
+            "request_validator_id": "",
+            "resource_id": "q54qvo",
+            "rest_api_id": "oyue74ev69"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_api_gateway_resource.admin",
+            "aws_api_gateway_rest_api.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_api_gateway_method",
+      "name": "webhook",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "api_key_required": false,
+            "authorization": "NONE",
+            "authorization_scopes": [],
+            "authorizer_id": "",
+            "http_method": "POST",
+            "id": "agm-oyue74ev69-wfcogz-POST",
+            "operation_name": "",
+            "request_models": {},
+            "request_parameters": {},
+            "request_validator_id": "",
+            "resource_id": "wfcogz",
+            "rest_api_id": "oyue74ev69"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_api_gateway_resource.webhook",
+            "aws_api_gateway_rest_api.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_api_gateway_resource",
+      "name": "admin",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "q54qvo",
+            "parent_id": "gg8lwsgu2e",
+            "path": "/admin",
+            "path_part": "admin",
+            "rest_api_id": "oyue74ev69"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_api_gateway_rest_api.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_api_gateway_resource",
+      "name": "webhook",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "wfcogz",
+            "parent_id": "gg8lwsgu2e",
+            "path": "/webhook",
+            "path_part": "webhook",
+            "rest_api_id": "oyue74ev69"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_api_gateway_rest_api.main"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_api_gateway_rest_api",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "api_key_source": "HEADER",
+            "arn": "arn:aws:apigateway:us-east-1::/restapis/oyue74ev69",
+            "binary_media_types": [],
+            "body": null,
+            "created_date": "2025-07-29T21:32:45Z",
+            "description": "",
+            "disable_execute_api_endpoint": false,
+            "endpoint_configuration": [
+              {
+                "ip_address_type": "ipv4",
+                "types": [
+                  "EDGE"
+                ],
+                "vpc_endpoint_ids": []
+              }
+            ],
+            "execution_arn": "arn:aws:execute-api:us-east-1:240232487139:oyue74ev69",
+            "fail_on_warnings": null,
+            "id": "oyue74ev69",
+            "minimum_compression_size": "",
+            "name": "apiblaze-api",
+            "parameters": null,
+            "policy": "",
+            "put_rest_api_mode": null,
+            "root_resource_id": "gg8lwsgu2e",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            }
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_cognito_user_pool",
+      "name": "main",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_recovery_setting": [
+              {
+                "recovery_mechanism": [
+                  {
+                    "name": "verified_email",
+                    "priority": 1
+                  }
+                ]
+              }
+            ],
+            "admin_create_user_config": [
+              {
+                "allow_admin_create_user_only": false,
+                "invite_message_template": []
+              }
+            ],
+            "alias_attributes": null,
+            "arn": "arn:aws:cognito-idp:us-east-1:240232487139:userpool/us-east-1_BnXGhNVCA",
+            "auto_verified_attributes": [
+              "email"
+            ],
+            "creation_date": "2025-07-29T21:32:45Z",
+            "custom_domain": "",
+            "deletion_protection": "INACTIVE",
+            "device_configuration": [],
+            "domain": "",
+            "email_configuration": [
+              {
+                "configuration_set": "",
+                "email_sending_account": "COGNITO_DEFAULT",
+                "from_email_address": "",
+                "reply_to_email_address": "",
+                "source_arn": ""
+              }
+            ],
+            "email_mfa_configuration": [],
+            "email_verification_message": "",
+            "email_verification_subject": "",
+            "endpoint": "cognito-idp.us-east-1.amazonaws.com/us-east-1_BnXGhNVCA",
+            "estimated_number_of_users": 0,
+            "id": "us-east-1_BnXGhNVCA",
+            "lambda_config": [],
+            "last_modified_date": "2025-07-29T22:00:15Z",
+            "mfa_configuration": "OFF",
+            "name": "apiblaze-user-pool",
+            "password_policy": [
+              {
+                "minimum_length": 8,
+                "password_history_size": 0,
+                "require_lowercase": true,
+                "require_numbers": true,
+                "require_symbols": true,
+                "require_uppercase": true,
+                "temporary_password_validity_days": 7
+              }
+            ],
+            "schema": [
+              {
+                "attribute_data_type": null,
+                "developer_only_attribute": null,
+                "mutable": null,
+                "name": null,
+                "number_attribute_constraints": [],
+                "required": null,
+                "string_attribute_constraints": []
+              }
+            ],
+            "sign_in_policy": [
+              {
+                "allowed_first_auth_factors": [
+                  "PASSWORD"
+                ]
+              }
+            ],
+            "sms_authentication_message": "",
+            "sms_configuration": [],
+            "sms_verification_message": "",
+            "software_token_mfa_configuration": [],
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "user_attribute_update_settings": [],
+            "user_pool_add_ons": [
+              {
+                "advanced_security_additional_flows": [
+                  {
+                    "custom_auth_mode": null
+                  }
+                ],
+                "advanced_security_mode": "OFF"
+              }
+            ],
+            "user_pool_tier": "ESSENTIALS",
+            "username_attributes": [
+              "email"
+            ],
+            "username_configuration": [],
+            "verification_message_template": [
+              {
+                "default_email_option": "CONFIRM_WITH_CODE",
+                "email_message": "",
+                "email_message_by_link": "",
+                "email_subject": "",
+                "email_subject_by_link": "",
+                "sms_message": ""
+              }
+            ],
+            "web_authn_configuration": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_dynamodb_table",
+      "name": "api_keys",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-api-keys",
+            "attribute": [
+              {
+                "name": "api_key_hash",
+                "type": "S"
+              },
+              {
+                "name": "project_id",
+                "type": "S"
+              },
+              {
+                "name": "user_id",
+                "type": "S"
+              }
+            ],
+            "billing_mode": "PAY_PER_REQUEST",
+            "deletion_protection_enabled": false,
+            "global_secondary_index": [
+              {
+                "hash_key": "user_id",
+                "name": "user_id-index",
+                "non_key_attributes": [],
+                "on_demand_throughput": [],
+                "projection_type": "ALL",
+                "range_key": "",
+                "read_capacity": 0,
+                "write_capacity": 0
+              }
+            ],
+            "hash_key": "api_key_hash",
+            "id": "apiblaze-api-keys",
+            "import_table": [],
+            "local_secondary_index": [],
+            "name": "apiblaze-api-keys",
+            "on_demand_throughput": [],
+            "point_in_time_recovery": [
+              {
+                "enabled": false,
+                "recovery_period_in_days": 0
+              }
+            ],
+            "range_key": "project_id",
+            "read_capacity": 0,
+            "replica": [],
+            "restore_date_time": null,
+            "restore_source_name": null,
+            "restore_source_table_arn": null,
+            "restore_to_latest_time": null,
+            "server_side_encryption": [],
+            "stream_arn": "",
+            "stream_enabled": false,
+            "stream_label": "",
+            "stream_view_type": "",
+            "table_class": "STANDARD",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "timeouts": null,
+            "ttl": [
+              {
+                "attribute_name": "",
+                "enabled": false
+              }
+            ],
+            "write_capacity": 0
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjozNjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_dynamodb_table",
+      "name": "customer_oauth_configs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-customer-oauth-configs",
+            "attribute": [
+              {
+                "name": "customer_id",
+                "type": "S"
+              },
+              {
+                "name": "provider_id",
+                "type": "S"
+              },
+              {
+                "name": "provider_type",
+                "type": "S"
+              }
+            ],
+            "billing_mode": "PAY_PER_REQUEST",
+            "deletion_protection_enabled": false,
+            "global_secondary_index": [
+              {
+                "hash_key": "provider_type",
+                "name": "provider_type-index",
+                "non_key_attributes": [],
+                "on_demand_throughput": [],
+                "projection_type": "ALL",
+                "range_key": "",
+                "read_capacity": 0,
+                "write_capacity": 0
+              }
+            ],
+            "hash_key": "customer_id",
+            "id": "apiblaze-customer-oauth-configs",
+            "import_table": [],
+            "local_secondary_index": [],
+            "name": "apiblaze-customer-oauth-configs",
+            "on_demand_throughput": [],
+            "point_in_time_recovery": [
+              {
+                "enabled": false,
+                "recovery_period_in_days": 0
+              }
+            ],
+            "range_key": "provider_id",
+            "read_capacity": 0,
+            "replica": [],
+            "restore_date_time": null,
+            "restore_source_name": null,
+            "restore_source_table_arn": null,
+            "restore_to_latest_time": null,
+            "server_side_encryption": [],
+            "stream_arn": "",
+            "stream_enabled": false,
+            "stream_label": "",
+            "stream_view_type": "",
+            "table_class": "STANDARD",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "timeouts": null,
+            "ttl": [
+              {
+                "attribute_name": "",
+                "enabled": false
+              }
+            ],
+            "write_capacity": 0
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjozNjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_dynamodb_table",
+      "name": "customers",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-customers",
+            "attribute": [
+              {
+                "name": "customer_id",
+                "type": "S"
+              }
+            ],
+            "billing_mode": "PAY_PER_REQUEST",
+            "deletion_protection_enabled": false,
+            "global_secondary_index": [],
+            "hash_key": "customer_id",
+            "id": "apiblaze-customers",
+            "import_table": [],
+            "local_secondary_index": [],
+            "name": "apiblaze-customers",
+            "on_demand_throughput": [],
+            "point_in_time_recovery": [
+              {
+                "enabled": false,
+                "recovery_period_in_days": 0
+              }
+            ],
+            "range_key": null,
+            "read_capacity": 0,
+            "replica": [],
+            "restore_date_time": null,
+            "restore_source_name": null,
+            "restore_source_table_arn": null,
+            "restore_to_latest_time": null,
+            "server_side_encryption": [],
+            "stream_arn": "",
+            "stream_enabled": false,
+            "stream_label": "",
+            "stream_view_type": "",
+            "table_class": "STANDARD",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "timeouts": null,
+            "ttl": [
+              {
+                "attribute_name": "",
+                "enabled": false
+              }
+            ],
+            "write_capacity": 0
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjozNjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_dynamodb_table",
+      "name": "user_project_access",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-user-project-access",
+            "attribute": [
+              {
+                "name": "customer_id",
+                "type": "S"
+              },
+              {
+                "name": "project_id",
+                "type": "S"
+              },
+              {
+                "name": "user_id",
+                "type": "S"
+              }
+            ],
+            "billing_mode": "PAY_PER_REQUEST",
+            "deletion_protection_enabled": false,
+            "global_secondary_index": [
+              {
+                "hash_key": "customer_id",
+                "name": "customer_id-index",
+                "non_key_attributes": [],
+                "on_demand_throughput": [],
+                "projection_type": "ALL",
+                "range_key": "",
+                "read_capacity": 0,
+                "write_capacity": 0
+              }
+            ],
+            "hash_key": "user_id",
+            "id": "apiblaze-user-project-access",
+            "import_table": [],
+            "local_secondary_index": [],
+            "name": "apiblaze-user-project-access",
+            "on_demand_throughput": [],
+            "point_in_time_recovery": [
+              {
+                "enabled": false,
+                "recovery_period_in_days": 0
+              }
+            ],
+            "range_key": "project_id",
+            "read_capacity": 0,
+            "replica": [],
+            "restore_date_time": null,
+            "restore_source_name": null,
+            "restore_source_table_arn": null,
+            "restore_to_latest_time": null,
+            "server_side_encryption": [],
+            "stream_arn": "",
+            "stream_enabled": false,
+            "stream_label": "",
+            "stream_view_type": "",
+            "table_class": "STANDARD",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "timeouts": null,
+            "ttl": [
+              {
+                "attribute_name": "",
+                "enabled": false
+              }
+            ],
+            "write_capacity": 0
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjozNjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_dynamodb_table",
+      "name": "users",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-users",
+            "attribute": [
+              {
+                "name": "email",
+                "type": "S"
+              },
+              {
+                "name": "user_id",
+                "type": "S"
+              }
+            ],
+            "billing_mode": "PAY_PER_REQUEST",
+            "deletion_protection_enabled": false,
+            "global_secondary_index": [
+              {
+                "hash_key": "email",
+                "name": "email-index",
+                "non_key_attributes": [],
+                "on_demand_throughput": [],
+                "projection_type": "ALL",
+                "range_key": "",
+                "read_capacity": 0,
+                "write_capacity": 0
+              }
+            ],
+            "hash_key": "user_id",
+            "id": "apiblaze-users",
+            "import_table": [],
+            "local_secondary_index": [],
+            "name": "apiblaze-users",
+            "on_demand_throughput": [],
+            "point_in_time_recovery": [
+              {
+                "enabled": false,
+                "recovery_period_in_days": 0
+              }
+            ],
+            "range_key": null,
+            "read_capacity": 0,
+            "replica": [],
+            "restore_date_time": null,
+            "restore_source_name": null,
+            "restore_source_table_arn": null,
+            "restore_to_latest_time": null,
+            "server_side_encryption": [],
+            "stream_arn": "",
+            "stream_enabled": false,
+            "stream_label": "",
+            "stream_view_type": "",
+            "table_class": "STANDARD",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "timeouts": null,
+            "ttl": [
+              {
+                "attribute_name": "",
+                "enabled": false
+              }
+            ],
+            "write_capacity": 0
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxODAwMDAwMDAwMDAwLCJkZWxldGUiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjozNjAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "lambda_role",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::240232487139:role/apiblaze_lambda_role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2025-07-29T21:32:45Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "apiblaze_lambda_role",
+            "inline_policy": [
+              {
+                "name": "lambda_dynamodb_policy",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"dynamodb:UpdateItem\",\"dynamodb:DeleteItem\",\"dynamodb:Query\",\"dynamodb:Scan\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-users\",\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-user-project-access\",\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-customers\",\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-api-keys\"]}]}"
+              },
+              {
+                "name": "lambda_dynamodb_stream_policy",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"dynamodb:GetRecords\",\"dynamodb:GetShardIterator\",\"dynamodb:DescribeStream\",\"dynamodb:ListStreams\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-projects/stream/*\"}]}"
+              },
+              {
+                "name": "lambda_s3_policy",
+                "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::apiblaze-deployment-artifacts\",\"arn:aws:s3:::apiblaze-deployment-artifacts/*\"]}]}"
+              }
+            ],
+            "managed_policy_arns": [
+              "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+            ],
+            "max_session_duration": 3600,
+            "name": "apiblaze_lambda_role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "unique_id": "AROATP3XY3DR3STEOYNU4"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "lambda_dynamodb",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "apiblaze_lambda_role:lambda_dynamodb_policy",
+            "name": "lambda_dynamodb_policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"dynamodb:GetItem\",\"dynamodb:PutItem\",\"dynamodb:UpdateItem\",\"dynamodb:DeleteItem\",\"dynamodb:Query\",\"dynamodb:Scan\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-users\",\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-user-project-access\",\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-customers\",\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-api-keys\"]}]}",
+            "role": "apiblaze_lambda_role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_dynamodb_table.api_keys",
+            "aws_dynamodb_table.customers",
+            "aws_dynamodb_table.user_project_access",
+            "aws_dynamodb_table.users",
+            "aws_iam_role.lambda_role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "lambda_dynamodb_stream",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "apiblaze_lambda_role:lambda_dynamodb_stream_policy",
+            "name": "lambda_dynamodb_stream_policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"dynamodb:GetRecords\",\"dynamodb:GetShardIterator\",\"dynamodb:DescribeStream\",\"dynamodb:ListStreams\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:dynamodb:us-east-1:240232487139:table/apiblaze-projects/stream/*\"}]}",
+            "role": "apiblaze_lambda_role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.lambda_role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "lambda_s3",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "apiblaze_lambda_role:lambda_s3_policy",
+            "name": "lambda_s3_policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\",\"s3:ListBucket\"],\"Effect\":\"Allow\",\"Resource\":[\"arn:aws:s3:::apiblaze-deployment-artifacts\",\"arn:aws:s3:::apiblaze-deployment-artifacts/*\"]}]}",
+            "role": "apiblaze_lambda_role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.lambda_role",
+            "aws_s3_bucket.deployment_artifacts"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "lambda_basic",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "apiblaze_lambda_role-20250729213245829100000001",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+            "role": "apiblaze_lambda_role"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.lambda_role"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "deployment_artifacts",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::apiblaze-deployment-artifacts",
+            "bucket": "apiblaze-deployment-artifacts",
+            "bucket_domain_name": "apiblaze-deployment-artifacts.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_regional_domain_name": "apiblaze-deployment-artifacts.s3.us-east-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "89a6c1b00dc6da9f87dee0a54be9a2600b565eae3df29b99682c16d135fbf4f4",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z3AQBSTGFYJSTF",
+            "id": "apiblaze-deployment-artifacts",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "us-east-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "",
+                        "sse_algorithm": "AES256"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": true,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "terraform_state",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::apiblaze-terraform-state-240232487139",
+            "bucket": "apiblaze-terraform-state-240232487139",
+            "bucket_domain_name": "apiblaze-terraform-state-240232487139.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_regional_domain_name": "apiblaze-terraform-state-240232487139.s3.us-east-1.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "89a6c1b00dc6da9f87dee0a54be9a2600b565eae3df29b99682c16d135fbf4f4",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z3AQBSTGFYJSTF",
+            "id": "apiblaze-terraform-state-240232487139",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "us-east-1",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "",
+                        "sse_algorithm": "AES256"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": {},
+            "tags_all": {
+              "Environment": "production",
+              "ManagedBy": "terraform",
+              "Project": "apiblaze"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": true,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_server_side_encryption_configuration",
+      "name": "deployment_artifacts",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "apiblaze-deployment-artifacts",
+            "expected_bucket_owner": "",
+            "id": "apiblaze-deployment-artifacts",
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "kms_master_key_id": "",
+                    "sse_algorithm": "AES256"
+                  }
+                ],
+                "bucket_key_enabled": false
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.deployment_artifacts"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_server_side_encryption_configuration",
+      "name": "terraform_state",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "apiblaze-terraform-state-240232487139",
+            "expected_bucket_owner": "",
+            "id": "apiblaze-terraform-state-240232487139",
+            "rule": [
+              {
+                "apply_server_side_encryption_by_default": [
+                  {
+                    "kms_master_key_id": "",
+                    "sse_algorithm": "AES256"
+                  }
+                ],
+                "bucket_key_enabled": false
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.terraform_state"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "deployment_artifacts",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "apiblaze-deployment-artifacts",
+            "expected_bucket_owner": "",
+            "id": "apiblaze-deployment-artifacts",
+            "mfa": null,
+            "versioning_configuration": [
+              {
+                "mfa_delete": "",
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.deployment_artifacts"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "terraform_state",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "apiblaze-terraform-state-240232487139",
+            "expected_bucket_owner": "",
+            "id": "apiblaze-terraform-state-240232487139",
+            "mfa": null,
+            "versioning_configuration": [
+              {
+                "mfa_delete": "",
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.terraform_state"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
