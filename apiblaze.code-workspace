@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../vercapi"
+		},
+		{
+			"path": "../dashboard"
+		}
+	],
+	"settings": {}
+}

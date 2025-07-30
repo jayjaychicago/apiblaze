@@ -1,240 +1,129 @@
-# APIBLAZE - PRODUCT REQUIREMENTS DOCUMENT
+# APIBLAZE Product Requirements Document
 
-## PROJECT OVERVIEW
+## Project Overview
+APIBLAZE is a multi-tenant API proxy platform that allows customers to create, manage, and deploy API proxies with authentication, rate limiting, and monitoring capabilities.
 
-**Product Name**: Apiblaze
-**Domain**: apiblaze.com
-**AWS Account**: 240232487139
-**Architecture**: Cloudflare + AWS Hybrid
+## Phase 1: Foundation
+- **Cloudflare Worker Setup**: Basic worker with routing logic
+- **AWS Infrastructure**: Lambda functions, DynamoDB tables, API Gateway
+- **CLI Interface**: Project creation via POST requests
+- **KV Storage**: Cloudflare KV for caching and temporary storage
+- **Basic API Proxy**: Simple request forwarding
 
-## END GOAL
+## Phase 2: Core Functionality
+- **API Gateway Integration**: Full integration between Cloudflare Worker and AWS Lambda
+- **DynamoDB Integration**: Multi-tenant data storage with proper key structure
+- **Project Management**: Create, read, update, delete projects via REST API
+- **Authentication**: Internal API key validation between services
+- **Error Handling**: Comprehensive error handling and logging
+- **OpenAPI Specification**: Complete API documentation
+- **GET Endpoints**: Both list projects and individual project retrieval
+- **GSI Index**: DynamoDB Global Secondary Index for efficient querying
+- **IAM Permissions**: Proper Lambda permissions for DynamoDB operations
+- **Domain Configuration**: Worker properly deployed on apiblaze.com domain
 
-Apiblaze is a platform that allows customers to:
-1. **Create API Proxies**: Connect to any OpenAPI/Swagger specification and instantly create a working API proxy
-2. **Custom Domain Mapping**: Customers can CNAME their own domains to their API (e.g., myapi1.customer1.com → myapi1.apiblaze.com)
-3. **Developer Portal**: Each API gets an auto-generated developer portal with Swagger UI
-4. **OAuth Integration**: Support for Google OAuth and other providers with automatic token handling
-5. **Multi-tenant Architecture**: Each customer can have multiple projects/APIs
+## Phase 3: Advanced Features
+- **Custom Domain Routing**: Set up subdomain routing for individual projects
+- **Customer UI**: Cloudflare Pages for project management
+- **Developer Portal**: Self-service project creation and management
+- **OAuth Integration**: OAuth 2.0 flow for third-party APIs
+- **Rate Limiting**: Per-project rate limiting and quotas
+- **Monitoring**: Request/response logging and analytics
+- **API Key Management**: Secure API key generation and rotation
 
-## CURRENT ARCHITECTURE
+## Phase 4: Enterprise Features
+- **Multi-region Deployment**: Global distribution and failover
+- **Advanced Analytics**: Usage patterns, performance metrics
+- **Team Management**: User roles and permissions
+- **Billing Integration**: Usage-based billing and invoicing
+- **Webhook Support**: Real-time notifications and integrations
 
-### Multi-Tenant Design
-- **Single Cognito User Pool**: All customers share one pool
-- **Email-based Usernames**: Users identified by email address
-- **Customer-Prefixed Groups**: `{customer_id}:{role}` (e.g., `customer1:owners`)
-- **Custom Redirect Handler**: `redirect.apiblaze.com` manages OAuth callbacks
-- **State-based Routing**: OAuth state parameter contains project and redirect information
-- **Database Validation**: Whitelist of allowed redirect URIs per project
+## API Endpoints
 
-### Cloudflare Components
-- **Worker**: Main routing and proxy logic at apiblaze.com
-- **KV Store**: 
-  - OAuth token storage (OAUTH_TOKENS namespace)
-  - API key storage and validation (API_KEYS namespace)
-  - Project configuration cache (PROJECTS namespace)
-  - User access cache (USER_ACCESS namespace)
-- **Pages**: Customer UI (timesaved-direct) deployment
-- **R2**: Static asset storage
+### Core Endpoints (Phase 2)
+- `POST /` - CLI interface for project creation
+- `POST /admin/projects` - Create project
+- `GET /admin/projects` - List projects
+- `GET /admin/projects/{project_id}` - Get individual project
 
-### AWS Components (us-east-1)
-- **Cognito**: Multi-tenant authentication (single pool, single app client)
-- **DynamoDB**: Source of truth for user profiles, project metadata, and customer data
-- **Lambda**: Core business logic (admin functions, API processing)
-- **API Gateway**: Central API for shared endpoints
-- **S3**: Static assets and Terraform state
+### Planned Endpoints (Phase 3)
+- `PUT /admin/projects/{project_id}` - Update project
+- `DELETE /admin/projects/{project_id}` - Delete project
+- `POST /admin/api-keys` - Create API key
+- `POST /admin/users` - Create user
+- `GET /admin/users` - List users
+- `PUT /admin/users/{user_id}` - Update user
 
-### Domain Strategy
-- `admin.apiblaze.com` - Customer management interface
-- `apiportal.apiblaze.com` - Developer portal hosting
-- `api.apiblaze.com` - API proxy endpoints
-- `cli.apiblaze.com` - Command-line interface
-- `redirect.apiblaze.com` - OAuth callback handler
-- Customer custom domains → `*.apiblaze.com` subdomains
+### Future Endpoints (Phase 4)
+- `GET /admin/analytics` - Usage analytics
+- `POST /admin/webhooks` - Configure webhooks
+- `GET /admin/billing` - Billing information
 
-## CURRENT STATE
+## Data Models
 
-### ✅ COMPLETED
-1. **Infrastructure Setup**: Terraform configurations for AWS resources
-2. **Cloudflare Worker**: Basic routing logic implemented
-3. **Deployment Scripts**: Automated deployment pipeline
-4. **Domain Configuration**: Cloudflare DNS and SSL setup
-5. **OAuth Token Handling**: KV store integration for token management
-
-### 🔄 IN PROGRESS
-1. **Resource Import**: Existing AWS resources need to be imported into Terraform state
-2. **Lambda Functions**: Core business logic implementation
-3. **Customer UI**: Migration from timesaved-direct
-4. **Developer Portal**: Migration from s3-devportal
-
-### ❌ PENDING
-1. **OAuth Flow**: Complete Google and other 3p OAuth integration
-2. **API Proxy Logic**: Dynamic routing to target APIs
-3. **Custom Domain Support**: Wildcard SSL and routing
-4. **Testing**: End-to-end functionality validation
-
-## NEXT STEPS (IMMEDIATE)
-
-### 1. Import Existing Resources
-```bash
-# Import existing DynamoDB table
-terraform import aws_dynamodb_table.projects apiblaze-projects
-
-# Import existing S3 buckets
-terraform import aws_s3_bucket.terraform_state apiblaze-terraform-state-240232487139
-terraform import aws_s3_bucket.static_assets apiblaze-static-assets-240232487139
-
-# Import existing IAM roles
-terraform import aws_iam_role.admin_lambda_role apiblaze-admin-lambda-role
+### Project
+```json
+{
+  "project_id": "string",
+  "target_url": "string",
+  "auth_type": "api_key|oauth|none",
+  "customer_id": "string",
+  "active": "boolean",
+  "created_at": "timestamp",
+  "updated_at": "timestamp",
+  "api_version": "string"
+}
 ```
 
-### 2. Complete Lambda Functions
-- **Admin Lambda**: Project management, user operations, customer management
-- **API Processing Lambda**: OpenAPI parsing and proxy generation
-- **OAuth Handler**: Token exchange and management
-- **User Management Lambda**: Multi-tenant user operations and group management
-
-### 3. Deploy Core Components
-```bash
-# Deploy Cloudflare Worker
-cd cloudflare && wrangler deploy
-
-# Deploy Lambda functions
-cd terraform && terraform apply
-
-# Deploy customer UI
-cd timesaved-direct && npm run build && wrangler pages deploy
+### API Key
+```json
+{
+  "api_key": "string",
+  "project_id": "string",
+  "customer_id": "string",
+  "active": "boolean",
+  "created_at": "timestamp",
+  "expires_at": "timestamp"
+}
 ```
 
-### 4. Test Authentication Flows
-- Configure Google OAuth in Cognito
-- Test token exchange and storage
-- Validate proxy API access with OAuth tokens
-- Test API key creation and validation
-- Validate proxy API access with API keys
-- Test multi-tenant user management and group access
-- Test custom redirect handler with state-based routing
-- Validate user access across different customers and projects
+### User
+```json
+{
+  "user_id": "string",
+  "email": "string",
+  "customer_id": "string",
+  "role": "admin|user",
+  "active": "boolean",
+  "created_at": "timestamp"
+}
+```
 
-### 5. Implement API Proxy Logic
-- Dynamic routing based on project configuration
-- Request/response transformation
-- Error handling and logging
+## Technical Requirements
 
-## TECHNICAL REQUIREMENTS
+### Performance
+- API response time < 200ms for cached data
+- Support for 1000+ concurrent requests
+- 99.9% uptime SLA
 
-### Authentication
-- **Cognito User Pools**: Multi-tenant user management (single pool, email-based usernames)
-- **Cognito Groups**: Customer-prefixed groups (e.g., `customer1:owners`, `customer1:admins`)
-- **OAuth Providers**: Google, GitHub, etc.
-- **JWT Validation**: Cloudflare Worker token verification
-- **API Key Authentication**: Cloudflare KV-based API key validation
-- **Custom Redirect Handler**: `redirect.apiblaze.com` for OAuth callbacks with state-based routing
+### Security
+- Multi-tenant data isolation
+- API key authentication
+- OAuth 2.0 support
+- Rate limiting per project
+- Audit logging
 
-### Data Storage
-- **DynamoDB Tables** (Source of Truth):
-  - `apiblaze-projects`: Project metadata and configuration
-  - `apiblaze-users`: User profiles and customer associations
-  - `apiblaze-user-project-access`: User access to projects
-  - `apiblaze-customers`: Customer information and settings
-  - `apiblaze-api-keys`: API key metadata and audit trail
-- **Cloudflare KV** (Fast Access Cache):
-  - `OAUTH_TOKENS`: OAuth token storage (frequently accessed)
-  - `API_KEYS`: API key validation (every request)
-  - `PROJECTS`: Project configuration cache (frequently accessed)
-  - `USER_ACCESS`: User access cache (moderately accessed)
+### Scalability
+- Horizontal scaling via Cloudflare Workers
+- DynamoDB auto-scaling
+- Global distribution via Cloudflare CDN
 
-### API Proxy Features
-- **Request Forwarding**: Maintain original headers and body
-- **Authentication**: 
-  - Add OAuth tokens to proxied requests (for OAuth flows)
-  - Validate API keys from Cloudflare KV (for API key flows)
-  - Validate Cognito JWT tokens (for user authentication)
-- **Rate Limiting**: Per-project and per-API-key request limits
-- **Caching**: Response caching for performance
-- **Logging**: Request/response logging for debugging
-- **Smart Caching**: KV cache for frequently accessed data, DynamoDB fallback
+## Success Metrics
+- Project creation success rate > 99%
+- API response time < 200ms
+- Zero data loss incidents
+- Customer satisfaction > 4.5/5
 
-### Caching Strategy
-- **Cloudflare KV (Fast Access)**:
-  - API keys (every request): ~1-5ms
-  - OAuth tokens (frequently accessed): ~1-5ms
-  - Project config cache (frequently accessed): ~1-5ms
-  - User access cache (moderately accessed): ~1-5ms
-- **DynamoDB (Source of Truth)**:
-  - User profiles (rarely accessed during API calls)
-  - Full project metadata (complex queries, audit trail)
-  - Customer data (not accessed during API calls)
-  - Billing/usage data (write-heavy, complex queries)
-- **Cache Invalidation**: Automatic invalidation on data changes
-- **Performance**: 99% of requests under 5ms response time
-
-### Custom Domain Support
-- **Wildcard SSL**: Automatic certificate generation
-- **DNS Management**: Automatic CNAME record creation
-- **Routing**: Dynamic subdomain routing to projects
-
-## SUCCESS METRICS
-
-1. **Functionality**: Customer can create API proxy in <5 minutes
-2. **Performance**: API response time <100ms (excluding target API)
-3. **Reliability**: 99.9% uptime for proxy services
-4. **Scalability**: Support 1000+ concurrent customers
-5. **Security**: Zero data breaches, secure token handling
-
-## RISKS & MITIGATION
-
-### High Risk
-- **OAuth Token Security**: Implement encryption and rotation
-- **Custom Domain SSL**: Use Cloudflare's unlimited SSL certificates
-- **Rate Limiting**: Implement per-customer and global limits
-
-### Medium Risk
-- **AWS Costs**: Monitor and optimize Lambda execution
-- **Cloudflare Limits**: Monitor KV storage and Worker execution
-- **Data Consistency**: Implement proper error handling and retries
-
-### Low Risk
-- **DNS Propagation**: Use Cloudflare's global network
-- **Certificate Renewal**: Automated via Cloudflare
-
-## DEPLOYMENT STRATEGY
-
-### Phase 1: Core Infrastructure (Current)
-- AWS resources and Cloudflare setup
-- Basic authentication and routing
-
-### Phase 2: API Proxy (Next)
-- Dynamic API routing and proxy logic
-- OAuth integration and token management
-- API key management and validation
-- Multi-tenant user management and group access
-- Custom redirect handler implementation
-- Smart caching strategy implementation
-
-### Phase 3: Custom Domains
-- Wildcard SSL and custom domain support
-- Advanced routing and caching
-
-### Phase 4: Advanced Features
-- Rate limiting and analytics
-- Advanced OAuth providers
-- API versioning and management
-
-## CONTACTS & DEPENDENCIES
-
-- **AWS Account**: 240232487139 (us-east-1)
-- **Cloudflare Account**: [Account ID needed]
-- **Domain**: apiblaze.com (Cloudflare managed)
-- **Terraform State**: S3 bucket apiblaze-terraform-state-240232487139
-
-## NOTES
-
-- All AWS resources must be in us-east-1 for Cognito compatibility
-- Cloudflare Worker handles all edge routing and authentication
-- DynamoDB is the source of truth for all data (users, projects, customers)
-- Cloudflare KV provides fast access cache for frequently accessed data
-- OAuth tokens and API keys are stored in Cloudflare KV for edge performance
-- Multi-tenant Cognito uses single pool with customer-prefixed groups
-- Custom redirect handler manages OAuth callbacks with state-based routing
-- Smart caching strategy: KV cache first, DynamoDB fallback
-- Customer UI is deployed to Cloudflare Pages for global performance 
+## Documentation
+- **User Experience**: See `example.txt` for complete user workflow examples
+- **Current Status**: See `status.txt` for implementation progress and next steps 

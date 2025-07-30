@@ -1,0 +1,345 @@
+openapi: 3.0.3
+info:
+  title: APIBLAZE Admin API
+  description: Admin API for managing projects, users, and API keys
+  version: 1.0.0
+  contact:
+    name: APIBLAZE Support
+    email: support@apiblaze.com
+
+servers:
+  - url: https://334n5q3ww8.execute-api.us-east-1.amazonaws.com/prod
+    description: Production API Gateway
+
+paths:
+  /admin/projects:
+    post:
+      summary: Create a new project
+      description: Creates a new API proxy project
+      operationId: createProject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - project_id
+                - target_url
+              properties:
+                project_id:
+                  type: string
+                  description: Unique project identifier
+                target_url:
+                  type: string
+                  format: uri
+                  description: Target API URL to proxy
+                auth_type:
+                  type: string
+                  enum: [api_key, oauth, none]
+                  default: api_key
+                  description: Authentication type for the project
+                customer_id:
+                  type: string
+                  default: default
+                  description: Customer ID for multi-tenancy
+                active:
+                  type: boolean
+                  default: true
+                  description: Whether the project is active
+                created_at:
+                  type: integer
+                  description: Unix timestamp of creation
+      responses:
+        '201':
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  PK:
+                    type: string
+                    description: DynamoDB partition key
+                  SK:
+                    type: string
+                    description: DynamoDB sort key
+                  project_id:
+                    type: string
+                  target_url:
+                    type: string
+                  auth_type:
+                    type: string
+                  customer_id:
+                    type: string
+                  active:
+                    type: boolean
+                  created_at:
+                    type: integer
+                  updated_at:
+                    type: integer
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+    
+    get:
+      summary: List projects
+      description: Get all projects for a customer
+      operationId: listProjects
+      parameters:
+        - name: customer_id
+          in: query
+          required: false
+          schema:
+            type: string
+            default: default
+          description: Customer ID to filter projects
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    project_id:
+                      type: string
+                    target_url:
+                      type: string
+                    auth_type:
+                      type: string
+                    customer_id:
+                      type: string
+                    active:
+                      type: boolean
+                    created_at:
+                      type: integer
+        '500':
+          description: Internal server error
+
+  /admin/projects/{project_id}:
+    get:
+      summary: Get project details
+      description: Retrieve a specific project by ID
+      operationId: getProject
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Project ID
+        - name: api_version
+          in: query
+          required: false
+          schema:
+            type: string
+            default: v1
+          description: API version
+      responses:
+        '200':
+          description: Project details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  project_id:
+                    type: string
+                  target_url:
+                    type: string
+                  auth_type:
+                    type: string
+                  customer_id:
+                    type: string
+                  active:
+                    type: boolean
+                  created_at:
+                    type: integer
+                  updated_at:
+                    type: integer
+        '404':
+          description: Project not found
+        '500':
+          description: Internal server error
+    
+    put:
+      summary: Update project
+      description: Update an existing project
+      operationId: updateProject
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Project ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target_url:
+                  type: string
+                  format: uri
+                auth_type:
+                  type: string
+                  enum: [api_key, oauth, none]
+                active:
+                  type: boolean
+      responses:
+        '200':
+          description: Project updated successfully
+        '404':
+          description: Project not found
+        '500':
+          description: Internal server error
+    
+    delete:
+      summary: Delete project
+      description: Delete a project
+      operationId: deleteProject
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Project ID
+      responses:
+        '200':
+          description: Project deleted successfully
+        '404':
+          description: Project not found
+        '500':
+          description: Internal server error
+
+  /admin/api-keys:
+    post:
+      summary: Create API key
+      description: Create a new API key for a project
+      operationId: createApiKey
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - project_id
+                - api_key
+              properties:
+                project_id:
+                  type: string
+                api_key:
+                  type: string
+                customer_id:
+                  type: string
+                  default: default
+                active:
+                  type: boolean
+                  default: true
+      responses:
+        '201':
+          description: API key created successfully
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+  /admin/users:
+    post:
+      summary: Create user
+      description: Create a new user
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - email
+              properties:
+                user_id:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                customer_id:
+                  type: string
+                  default: default
+                active:
+                  type: boolean
+                  default: true
+      responses:
+        '201':
+          description: User created successfully
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        project_id:
+          type: string
+        target_url:
+          type: string
+          format: uri
+        auth_type:
+          type: string
+          enum: [api_key, oauth, none]
+        customer_id:
+          type: string
+        active:
+          type: boolean
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+    
+    ApiKey:
+      type: object
+      properties:
+        project_id:
+          type: string
+        api_key:
+          type: string
+        customer_id:
+          type: string
+        active:
+          type: boolean
+        created_at:
+          type: integer
+    
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+        email:
+          type: string
+          format: email
+        customer_id:
+          type: string
+        active:
+          type: boolean
+        created_at:
+          type: integer
+
+  securitySchemes:
+    InternalApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Internal API key for service-to-service communication 

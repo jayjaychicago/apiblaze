@@ -1,0 +1,218 @@
+# APIBLAZE User Experience Example
+
+## Overview
+This document shows the complete user experience for creating and using API proxies with APIBLAZE.
+
+## Step 1: Create an API Proxy
+
+### Option A: No Authentication Required
+```bash
+# Create a simple API proxy that doesn't require authentication
+curl -X POST https://apiblaze.com/ \
+  -H "Content-Type: application/json" \
+  --data '{
+    "target": "https://httpbin.org/json",
+    "auth_type": "none"
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "project_id": "rkf83uqhr00fsi1nsct20upw85bmg2d8",
+  "api_key": "apiblaze_iaB1ehol2oiJrelpydwD4XeVUQ2vUorm",
+  "endpoint": "https://rkf83uqhr00fsi1nsct20upw85bmg2d8.apiblaze.com",
+  "message": "Project created and stored in KV successfully"
+}
+```
+
+### Option B: API Key Authentication Required
+```bash
+# Create an API proxy that requires API key authentication
+curl -X POST https://apiblaze.com/ \
+  -H "Content-Type: application/json" \
+  --data '{
+    "target": "https://httpbin.org/json",
+    "auth_type": "api_key"
+  }'
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "project_id": "v59h8wgnmmu6ri31sawjw2vdxjoihw2c",
+  "api_key": "apiblaze_BRXY9bLOyJlFwCN7VgiIVY75m4mWgtVL",
+  "endpoint": "https://v59h8wgnmmu6ri31sawjw2vdxjoihw2c.apiblaze.com",
+  "message": "Project created and stored in KV successfully"
+}
+```
+
+## Step 2: Use Your API Proxy
+
+### For No-Authentication Projects
+```bash
+# Simply call your subdomain endpoint
+curl -X GET "https://rkf83uqhr00fsi1nsct20upw85bmg2d8.apiblaze.com/json"
+```
+
+**Response:**
+```json
+{
+  "slideshow": {
+    "author": "Yours Truly",
+    "date": "date of publication",
+    "slides": [
+      {
+        "title": "Wake up to WonderWidgets!",
+        "type": "all"
+      },
+      {
+        "items": [
+          "Why <em>WonderWidgets</em> are great",
+          "Who <em>buys</em> WonderWidgets"
+        ],
+        "title": "Overview",
+        "type": "all"
+      }
+    ],
+    "title": "Sample Slide Show"
+  }
+}
+```
+
+### For API Key Protected Projects
+```bash
+# Include your API key in the request header
+curl -X GET "https://v59h8wgnmmu6ri31sawjw2vdxjoihw2c.apiblaze.com/json" \
+  -H "X-API-Key: apiblaze_BRXY9bLOyJlFwCN7VgiIVY75m4mWgtVL"
+```
+
+**Response:** Same JSON response as above
+
+### Authentication Failure Example
+```bash
+# Try to access without API key (should fail)
+curl -X GET "https://v59h8wgnmmu6ri31sawjw2vdxjoihw2c.apiblaze.com/json"
+```
+
+**Response:**
+```json
+{"error": "API key required"}
+```
+
+**HTTP Status:** 401 Unauthorized
+
+## Step 3: Advanced Usage Examples
+
+### POST Requests
+```bash
+# Send POST data through your proxy
+curl -X POST "https://rkf83uqhr00fsi1nsct20upw85bmg2d8.apiblaze.com/post" \
+  -H "Content-Type: application/json" \
+  --data '{"name": "John", "age": 30}'
+```
+
+### Query Parameters
+```bash
+# Pass query parameters
+curl -X GET "https://rkf83uqhr00fsi1nsct20upw85bmg2d8.apiblaze.com/get?param1=value1&param2=value2"
+```
+
+### Custom Headers
+```bash
+# Include custom headers (they'll be forwarded to the target API)
+curl -X GET "https://rkf83uqhr00fsi1nsct20upw85bmg2d8.apiblaze.com/headers" \
+  -H "X-Custom-Header: my-value" \
+  -H "Authorization: Bearer my-token"
+```
+
+## Step 4: Real-World Scenarios
+
+### Scenario 1: Weather API Proxy
+```bash
+# Create a proxy for a weather API
+curl -X POST https://apiblaze.com/ \
+  -H "Content-Type: application/json" \
+  --data '{
+    "target": "https://api.openweathermap.org/data/2.5/weather",
+    "auth_type": "api_key"
+  }'
+
+# Use your weather proxy
+curl -X GET "https://your-project-id.apiblaze.com/?q=London&appid=YOUR_WEATHER_API_KEY" \
+  -H "X-API-Key: apiblaze_YOUR_PROXY_API_KEY"
+```
+
+### Scenario 2: GitHub API Proxy
+```bash
+# Create a proxy for GitHub API
+curl -X POST https://apiblaze.com/ \
+  -H "Content-Type: application/json" \
+  --data '{
+    "target": "https://api.github.com",
+    "auth_type": "api_key"
+  }'
+
+# Use your GitHub proxy
+curl -X GET "https://your-project-id.apiblaze.com/user" \
+  -H "X-API-Key: apiblaze_YOUR_PROXY_API_KEY" \
+  -H "Authorization: Bearer YOUR_GITHUB_TOKEN"
+```
+
+### Scenario 3: Public API (No Auth)
+```bash
+# Create a proxy for a public API
+curl -X POST https://apiblaze.com/ \
+  -H "Content-Type: application/json" \
+  --data '{
+    "target": "https://jsonplaceholder.typicode.com",
+    "auth_type": "none"
+  }'
+
+# Use your public API proxy
+curl -X GET "https://your-project-id.apiblaze.com/posts/1"
+```
+
+## Key Benefits
+
+1. **Custom Subdomains**: Each project gets its own subdomain (e.g., `project-id.apiblaze.com`)
+2. **Authentication Control**: Choose between no auth or API key protection
+3. **Automatic Forwarding**: All requests, headers, and parameters are forwarded to your target API
+4. **HTTPS by Default**: All endpoints are served over HTTPS with valid SSL certificates
+5. **Global CDN**: Requests are served from Cloudflare's global network for fast response times
+6. **No Setup Required**: No server configuration, DNS setup, or SSL certificate management needed
+
+## Error Handling
+
+### Project Not Found
+```bash
+curl -X GET "https://nonexistent-project.apiblaze.com/api"
+```
+**Response:**
+```json
+{"error": "Project not found"}
+```
+**HTTP Status:** 404 Not Found
+
+### Invalid API Key
+```bash
+curl -X GET "https://protected-project.apiblaze.com/api" \
+  -H "X-API-Key: invalid-key"
+```
+**Response:**
+```json
+{"error": "Invalid API key"}
+```
+**HTTP Status:** 401 Unauthorized
+
+### Missing API Key
+```bash
+curl -X GET "https://protected-project.apiblaze.com/api"
+```
+**Response:**
+```json
+{"error": "API key required"}
+```
+**HTTP Status:** 401 Unauthorized 
